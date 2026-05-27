@@ -1,0 +1,24 @@
+{
+  "name": "day-one-content-operations",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Day One Content Operations",
+  "scripts": {
+    "dev": "pnpm run --parallel dev",
+    "build": "pnpm run --parallel build",
+    "predev": "pnpm run typegen",
+    "prebuild": "pnpm run typegen",
+    "typegen": "pnpm -C apps/studio exec sanity schema extract && pnpm -C apps/studio exec sanity typegen generate --enforce-required-fields"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=10.0.0"
+  },
+  "packageManager": "pnpm@10.17.1+sha512.17c560fca4867ae9473a3899ad84a88334914f379be46d455cbf92e5cf4b39d34985d452d2583baf19967fa76cb5c17bc9e245529d0b98745721aa7200ecaf7a",
+  "dependencies": {
+    "@sanity/image-url": "^1.2.0"
+  },
+  "devDependencies": {
+    "sanity": "^4.13.0"
+  }
+}
