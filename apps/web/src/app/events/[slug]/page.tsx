@@ -13,7 +13,8 @@ const EVENT_QUERY = defineQuery(`*[
   ...,
   "date": coalesce(date, now()),
   "doorsOpen": coalesce(doorsOpen, 0),
-  headline->,
+  "eventType": coalesce(format, eventType),
+  "headline": headLine->,
   venue->
 }`);
 
@@ -46,7 +47,7 @@ export default async function EventPage({
     new Date(date).getTime() - doorsOpen * 60000
   ).toLocaleTimeString();
 
-  const imageUrl = headline?.photo
+  const imageUrl = headline?.photo?.asset?._ref
     ? urlFor(headline.photo)
         .height(310)
         .width(550)

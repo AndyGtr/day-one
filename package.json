@@ -18,7 +18,13 @@
   "dependencies": {
     "@sanity/image-url": "^1.2.0"
   },
-  "devDependencies": {
-    "sanity": "^4.13.0"
+  "pnpm": {
+    "overrides": {
+      "@portabletext/sanity-bridge": "1.1.17",
+      "@sanity/schema": "4.13.0",
+      "@sanity/types": "4.13.0",
+      "@sanity/vision": "4.13.0",
+      "sanity": "4.13.0"
+    }
   }
 }
