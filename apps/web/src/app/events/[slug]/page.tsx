@@ -6,6 +6,41 @@ import Image from "next/image";
 import { sanityFetch } from "@/sanity/live";
 import { urlFor } from "@/sanity/image";
 
+/**
+ * GPTTECH: sanity, learn, GROQ
+ * 
+ * Get the first matching event document by slug.
+ *
+ * *[...] returns an array of matching documents.
+ * [0] returns only the first match.
+ *
+ * ... spreads all fields from the current event document.
+ *
+ * coalesce() returns the first non-null value.
+ *
+ * "date": coalesce(date, now())
+ * - use the event date if present
+ * - otherwise use the current datetime
+ *
+ * "doorsOpen": coalesce(doorsOpen, 0)
+ * - use the doorsOpen value if present
+ * - otherwise default to 0
+ *
+ * headline and venue are reference fields.
+ *
+ * The dereference operator (->):
+ * - follows the reference
+ * - fetches the referenced document
+ * - similar conceptually to a SQL JOIN
+ *
+ * headline-> returns the full referenced headline document.
+ *
+ * headline->name would return only the name field
+ * from the referenced document.
+ *
+ * venue-> is shorthand for:
+ * "venue": venue->
+ */
 const EVENT_QUERY = defineQuery(`*[
     _type == "event" &&
     slug.current == $slug
@@ -13,8 +48,7 @@ const EVENT_QUERY = defineQuery(`*[
   ...,
   "date": coalesce(date, now()),
   "doorsOpen": coalesce(doorsOpen, 0),
-  "eventType": coalesce(format, eventType),
-  "headline": headLine->,
+  "headline": headline->,
   venue->
 }`);
 
@@ -35,7 +69,7 @@ export default async function EventPage({
     date,
     headline,
     details,
-    eventType,
+    format,
     doorsOpen,
     venue,
     tickets,
@@ -76,9 +110,9 @@ export default async function EventPage({
         />
         <div className="flex flex-col justify-center space-y-4">
           <div className="space-y-4">
-            {eventType ? (
+            {format ? (
               <div className="inline-block rounded-lg bg-gray-100 dark:bg-gray-800 px-3 py-1 text-sm text-gray-700 dark:text-gray-300 capitalize">
-                {eventType.replace("-", " ")}
+                {format.replace("-", " ")}
               </div>
             ) : null}
             {name ? (

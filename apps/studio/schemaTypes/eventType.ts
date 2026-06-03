@@ -27,7 +27,7 @@ export const eventType = defineType({
       to: [{type:'venue'}]
     }),
     defineField({
-      name: 'headLine',
+      name: 'headline',
       type: 'reference',
       to:[{type:'artist'}]
     }),
@@ -43,10 +43,12 @@ export const eventType = defineType({
     defineField({
       name: 'eventType',
       type: 'string',
+      title: 'Event type',
       deprecated: {
         reason: 'Use the "Event format" field instead.'
       },
       readOnly: true,
+      hidden: true,
       options: {
         list: ['in-person', 'virtual'],
         layout: 'radio',
@@ -55,10 +57,12 @@ export const eventType = defineType({
     defineField({
       name: 'format',
       type: 'string',
+      title: 'Event format',
       options: {
         list: ['in-person', 'virtual'],
         layout: 'radio',
       },
+      validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'tickets',
